@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import Bookstore.Harjoitus.domain.Book;
 import Bookstore.Harjoitus.domain.BookRepository;
+import Bookstore.Harjoitus.domain.CategoryRepository;
 
 @Controller
 public class BookController {
@@ -19,6 +20,9 @@ private static final Logger log = LoggerFactory.getLogger(BookController.class);
 	
 	@Autowired
 	private BookRepository bookRepository;
+	
+	@Autowired
+	private CategoryRepository categoryRepository;
 	
 	@RequestMapping(value = { "/main" } )
 	public String showMainPage() {
@@ -35,6 +39,7 @@ private static final Logger log = LoggerFactory.getLogger(BookController.class);
 	@GetMapping("/addBook")
 	public String newBook(Model model) {
 		model.addAttribute("book", new Book());
+		model.addAttribute("categorys", categoryRepository.findAll());
 		return "newBook";
 	}
 	
@@ -46,7 +51,7 @@ private static final Logger log = LoggerFactory.getLogger(BookController.class);
 	}
 	
 	@GetMapping("delete/{id}")
-	public String deleteBook(@PathVariable("id") Long id, Model model) {
+	public String deleteBook(@PathVariable("id") Long id) {
 		bookRepository.deleteById(id);
 		return "redirect:/booklist";
 	}
@@ -54,6 +59,7 @@ private static final Logger log = LoggerFactory.getLogger(BookController.class);
 	@GetMapping("edit/{id}")
 	public String editBook(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("book", bookRepository.findById(id));
+		model.addAttribute("categorys", categoryRepository.findAll());
 		return "editBook";
 	}
 	

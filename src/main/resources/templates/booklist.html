@@ -17,6 +17,7 @@
 			<th>Vuosi</th>
 			<th>Hinta</th>
 			<th>Sijoitus (1-5)</th>
+			<th>Kategoria</th>
 			<th>Toimintapisteet</th>
 		
 		<tr th:each="book : ${books}">
@@ -26,6 +27,7 @@
 			<td th:text="${book.publicationYear}"></td>
 			<td th:text="${book.price}"></td>
 			<td th:text="${book.ranking}"></td>
+			<td th:text="${book.category != null} ? ${book.category.name} : 'null value!'">Category</td>		
 			<td class="btn btn-danger"><a th:href="@{/delete/{id}(id=${book.id})}">Poista</a></td>
 			<td class="btn btn-yellow"><a th:href="@{/edit/{id}(id=${book.id})}">Muokkaa</a></td>
 		</tr>	

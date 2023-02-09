@@ -1,9 +1,12 @@
 package Bookstore.Harjoitus.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Book {
@@ -14,12 +17,16 @@ public class Book {
 	private int publicationYear, ranking;
 	private double price;
 	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "categoryid")
+	private Category category;
+	
 	public Book() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public Book(String title, String author, String isbn, int publicationYear, double price, int ranking) {
+	public Book(String title, String author, String isbn, int publicationYear, double price, int ranking, Category category) {
 		super();
 		this.title = title;
 		this.author = author;
@@ -27,6 +34,7 @@ public class Book {
 		this.publicationYear = publicationYear;
 		this.ranking = ranking;
 		this.price = price;
+		this.category= category;
 	}
 
 	public Long getId() {
@@ -85,10 +93,19 @@ public class Book {
 		this.price = price;
 	}
 
+	public Category getCategory() {
+		return category;
+	}
+
+	public void setCategory(Category category) {
+		this.category = category;
+	}
+
 	@Override
 	public String toString() {
 		return "Book [id=" + id + ", title=" + title + ", author=" + author + ", isbn=" + isbn + ", publicationYear="
-				+ publicationYear + ", ranking=" + ranking + ", price=" + price + "]";
+				+ publicationYear + ", ranking=" + ranking + ", price=" + price + ", category=" + this.getCategory() + "]";
+		
 	}
 	
 	

@@ -24,6 +24,11 @@
 	  	<label for="ranking">Ranking</label>
 		<input type="text" id="ranking" th:field="*{ranking}" />
 		
+		<label>Category</label>
+		<select id="categorys" th:field="*{category}">
+			<option th:each="category: ${categorys}" th:value="${category.categoryid}" th:text="${category.name}"></option>
+		</select>
+		
 		<input type="submit" value="Save"></input>
 		
 		</form>
