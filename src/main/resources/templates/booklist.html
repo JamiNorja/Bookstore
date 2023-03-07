@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"  xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link type="text/css" rel="stylesheet" href="/css/bootstrap.min.css" th:href="@{/css/bootstrap.min.css}" />
@@ -7,6 +7,15 @@
 </head>
 <body>
 	<h1>Kirjat</h1>
+	
+	<i>Tervehdys <b sec:authentication="name"></b>, 
+        roolisi on <b sec:authentication="principal.authorities"></b></i>
+	
+	<div class="col-md-4" style="padding:20px 0">
+		<form th:action="@{/logout}" method="post">
+			<input type="submit" value="Sing Out" class="btn btn-sm btn-danger"/>
+		</form>
+	</div>
 	
 	<p>(Sijoitus 1=huonoin...5=paras)</p>
 	<table class="table table-striped">
@@ -28,10 +37,13 @@
 			<td th:text="${book.price}"></td>
 			<td th:text="${book.ranking}"></td>
 			<td th:text="${book.category != null} ? ${book.category.name} : 'null value!'">Category</td>		
-			<td class="btn btn-danger"><a th:href="@{/delete/{id}(id=${book.id})}">Poista</a></td>
-			<td class="btn btn-yellow"><a th:href="@{/edit/{id}(id=${book.id})}">Muokkaa</a></td>
+			<td sec:authorize= "hasAuthority('ADMIN')" ><a th:href="@{/delete/{id}(id=${book.id})}" class="btn btn-danger">Poista</a></td>
+			<td sec:authorize= "hasAuthority('ADMIN')"><a th:href="@{/edit/{id}(id=${book.id})}" class="btn btn-yellow">Muokkaa</a></td>
 		</tr>	
 	</table>
-	<a href="/addBook" class="btn btn-success">Lisää uusi kirja</a>
+	<a sec:authorize= "hasAuthority('ADMIN')" href="/addBook" class="btn btn-success">Lisää uusi kirja</a><br>
+	<a href="/index">Palaa pääsivulle</a>
+	<br><br>
+	<a href="/logout"><i>Kirjaudu ulos</i></a>
 </body>
 </html>

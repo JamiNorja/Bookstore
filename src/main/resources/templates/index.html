@@ -1,13 +1,22 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <title>Index</title>
 </head>
 <body>
 	<div>
+		<i>Tervehdys <b sec:authentication="name"></b>, 
+        roolisi on <b sec:authentication="principal.authorities"></b></i>
+        
+        
 		<h3>This is the index page</h3>
-		<a href="/booklist">Mene kirjalistaukseen</a>
+		
+		<a href="/booklist">Mene kirjalistaukseen</a><br> 
+		<a sec:authorize="hasAuthority('ADMIN')" href="/admin/addBook">Lisää uusi kirja</a><br><br><br>   
+		
+		
+     <a href="/logout"><i>Kirjaudu ulos</i></a>
 	</div>
 </body>
 </html>

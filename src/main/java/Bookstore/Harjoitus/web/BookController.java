@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,6 +43,7 @@ private static final Logger log = LoggerFactory.getLogger(BookController.class);
 	}
 	
 	//Lisää kirjan
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("/addBook")
 	public String newBook(Model model) {
 		model.addAttribute("book", new Book());
@@ -58,6 +60,7 @@ private static final Logger log = LoggerFactory.getLogger(BookController.class);
 	}
 	
 	//Poistaa kirjan
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("delete/{id}")
 	public String deleteBook(@PathVariable("id") Long id) {
 		bookRepository.deleteById(id);
@@ -65,6 +68,7 @@ private static final Logger log = LoggerFactory.getLogger(BookController.class);
 	}
 	
 	//Muokkaa kirjan
+	@PreAuthorize("hasAuthority('ADMIN')")
 	@GetMapping("edit/{id}")
 	public String editBook(@PathVariable("id") Long id, Model model) {
 		model.addAttribute("book", bookRepository.findById(id));

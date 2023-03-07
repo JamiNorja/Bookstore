@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import Bookstore.Harjoitus.domain.AppUser;
+import Bookstore.Harjoitus.domain.AppUserRepository;
 import Bookstore.Harjoitus.domain.Book;
 import Bookstore.Harjoitus.domain.BookRepository;
 import Bookstore.Harjoitus.domain.Category;
@@ -22,7 +24,7 @@ public class HarjoitusApplication {
 	}
 	
 	@Bean
-	public CommandLineRunner bookstore(BookRepository bookRepository, CategoryRepository categoryRepository) {
+	public CommandLineRunner bookstore(BookRepository bookRepository, CategoryRepository categoryRepository, AppUserRepository urepository) {
 		return (args) -> {
 			
 			log.info("create categorys");
@@ -35,9 +37,21 @@ public class HarjoitusApplication {
 			bookRepository.save(new Book("Kasvoton kuolema", "Hennig Mankell", "lfkädalkdsfäöl", 2002, 12.0, 1, categoryRepository.findByName("Kauhu").get(0)));
 			bookRepository.save(new Book("Riian verikoirat", "Hennig Mankell", "122332343", 2003, 13, 2,  categoryRepository.findByName("Rakkaus").get(0)));
 			
-			log.info("fetch all books from the database");
+			// Create users: admin/admin user/user
+			AppUser user1 = new AppUser("user", "$2a$10$JokuQqVqYScOZ28NvRcqwOcCMxwFuQJ8DRSald/3ODN9hkBGa0p.O", "USER");
+			AppUser user2 = new AppUser("admin", "$2a$10$83q6U7uFRHKg3G43nl4TmOdrxKEUJ8l.lDLtKkdV.M8Q/FGNuxXOS", "ADMIN");
+			urepository.save(user1);
+			urepository.save(user2);
+			
+			log.info("fetch all books");
 			for (Book book : bookRepository.findAll()) {
-				System.out.println("kirja: " + book.toString());
+				log.info(book.toString());
+			}
+			
+			
+			log.info("fetch all books");
+			for (Book book : bookRepository.findAll()) {
+				log.info(book.toString());
 			}
 		};
 	}
