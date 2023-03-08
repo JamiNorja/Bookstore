@@ -10,7 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
-import Bookstore.Harjoitus.web.UserDetailServiceImpl;
+import Bookstore.Harjoitus.service.UserDetailServiceImpl;
 
 @Configuration
 @EnableWebSecurity
