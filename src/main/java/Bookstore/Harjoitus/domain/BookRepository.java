@@ -8,4 +8,6 @@ public interface BookRepository extends CrudRepository<Book, Long> {
 	
 	List<Book> findByAuthor(String authorName);
 
+	List<Book> findByTitle(String titleName);
+
 }
